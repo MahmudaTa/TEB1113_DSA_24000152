@@ -15,6 +15,6 @@
 - **Lab 6:**  
   - Queue  
   - Circular Queue
-
+- **Lab 7:** Tree
 
 
