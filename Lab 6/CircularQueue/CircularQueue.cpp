@@ -27,7 +27,9 @@ public:
         this->front = front;
         this->rear = front;
         if (front)
-            front->next_ptr = nullptr;
+        {
+            front->next_ptr = front; // Make it circular
+        }
     }
 
     void enqueue(Node *node)
@@ -35,47 +37,58 @@ public:
         if (!node)
             return; // Check for null pointer
 
-        node->next_ptr = nullptr; // Set new node's next to nullptr
+        node->next_ptr = nullptr; // Set new node's next to nullptr temporarily
 
         if (!front)
-        { // If list is empty
+        { // If queue is empty
             front = node;
             rear = node;
+            node->next_ptr = front; // Point to itself to form circular structure
         }
         else
         {
-            rear->next_ptr = node; // Link current rear to new node
-            rear = node;           // Update rear to new node
+            rear->next_ptr = node;  // Link current rear to new node
+            rear = node;            // Update rear to new node
+            node->next_ptr = front; // Connect new rear to front to maintain circular structure
         }
     }
 
     void display_queue()
     {
-        Node *current = front;
-        if (!current)
+        if (!front)
         {
             cout << "Queue is empty" << endl;
             return;
         }
-        
-        do {
+
+        Node *current = front;
+        do
+        {
             cout << current->name << " <- ";
             current = current->next_ptr;
-        } while (current != front);
-
-        cout << "Front (" << front->name << ")" << endl;
+        } while (current != front); // Stop when we loop back to front
+        cout << "(circular)" << endl;
     }
 
     void dequeue()
     {
         if (!front)
         {
-            cout << "Stack is empty" << endl;
+            cout << "Queue is empty" << endl;
             return;
         }
 
         Node *temp = front;
-        front = front->next_ptr;
+        if (front == rear)
+        { // Only one node
+            front = nullptr;
+            rear = nullptr;
+        }
+        else
+        {
+            front = front->next_ptr; // Move front to next node
+            rear->next_ptr = front;  // Update rear's next to new front
+        }
         cout << "Removing: " << temp->name << endl;
         delete temp;
     }
