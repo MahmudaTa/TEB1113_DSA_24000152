@@ -16,5 +16,6 @@
   - Queue  
   - Circular Queue
 - **Lab 7:** Tree
+- **Lab 8:** Binary Search Tree
 
 
